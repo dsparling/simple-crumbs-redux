@@ -2,9 +2,9 @@
 /*
 Plugin Name: Simple Crumbs Redux
 Plugin URI: http://plugins.svn.wordpress.org/simple-crumbs-redux
-Description: Simple Crumbs  Redux- Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and php > 4.1.0, tested up to WP 3.6.
+Description: Simple Crumbs  Redux- Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and php > 4.1.0, tested up to WP 4.1.1.
 Author: Doug Sparling
-Version: 1.0.2
+Version: 1.1.0
 Author URI: http://www.dougsparling.org
 Note: link/crumb information from $query_string
 Note: page/post information from $post
@@ -26,6 +26,8 @@ Fixed 'PHP Fatal error: Call-time pass-by-reference has been removed' with PHP 5
 
 
 class SimpleCrumbsRedux {
+	private $titles = array();
+	
 	public function __construct() {
 		add_shortcode( 'simple_crumbs', array( $this, 'simplecrumbs_shortcode' ) );
 		add_shortcode( 'simple_crumbs_redux', array( $this, 'simplecrumbs_shortcode' ) );
@@ -33,12 +35,8 @@ class SimpleCrumbsRedux {
 
 	public function simplecrumbs_shortcode( $attr ) {
 		$divider = ' &gt; ';
-		$titles = '';
-		$titles_divider = '|^|';
-		$theCrumb = array();
 		$strCrumb = '';
 		$baseURL = get_bloginfo( 'url' );
-	
 	
 		//use post id to get original title
 		//note: ideally should sanitise title to HTML conformant
@@ -50,7 +48,6 @@ class SimpleCrumbsRedux {
 			'root' => ''
 		), $attr ) );
 		
-		
 		$postID = ( int ) $post->ID;
 		$post_name = $post->post_name;
 		$post_type = $post->post_type;  //select page (default) versus post
@@ -59,80 +56,74 @@ class SimpleCrumbsRedux {
 		$htmlTemplate = '<a class="navCrumb lnk" href="[__1__]">[__2__]</a>';
 		$pattern = array( '/\[__1__\]/','/\[__2__\]/' );
 		
-		
 		//make permalink from query string
 		$permalink = $this->make_permalink( $query_array, $post_type );
 		
-		$titles[$post_name] = get_the_title( $postID );
-		$this->get_path_titles( $post, $titles );
+		$this->titles[$post_name] = get_the_title( $postID );
+		$this->get_path_titles( $post );
 		
-	
 		//populate crumb structure
 		if ( $root ) {
-			$replace = array( $baseURL,ucfirst( $root ) );
+			$replace = array( $baseURL, ucfirst( $root ) );
 			$strCrumb = preg_replace( $pattern, $replace, $htmlTemplate );
 		}
-	
 		
 		$tok = strtok( $permalink, '/');
-	
-	
-		while($tok) {
+		
+		while( $tok ) {
 			$baseURL .= sprintf( "/$tok" );
 			
-			if ( $tok<>'category' ) $strCrumb .= ( $strCrumb ) ? $divider : '';
+			if ( $tok <> 'category' ) $strCrumb .= ( $strCrumb ) ? $divider : '';
+			
 			switch ( $tok ) {
-				
 				// breadcrumb components which are not linked
-				// can be customised
+				// can be customized
 				case 'attachment':
 				case 'share':
 				case 'tag':
 				case 'Search Results':
-					$strCrumb .= ucfirst($tok);
+					$strCrumb .= ucfirst( $tok );
 					break;
-	
 				case 'category':
 					break;
-			
 				default:
-					if ( isset( $query_array['tag'] ) ) $titles[$tok] = single_tag_title( "", false );
+					if ( isset( $query_array['tag'] ) ) $this->titles[$tok] = single_tag_title( "", false );
 					//if (isset($query_array['category_name'])) $titles[$tok] = $query_array['category_name'];
-					$replace = ( isset( $titles[$tok] ) ) ? array( $baseURL . '/', $titles[$tok] ) : array( $baseURL . '/', ucfirst( $tok ) );
+					$replace = ( isset( $this->titles[$tok] ) ) ? array( $baseURL . '/', $this->titles[$tok] ) : array( $baseURL . '/', ucfirst( $tok ) );
 					$strCrumb .= preg_replace( $pattern, $replace, $htmlTemplate );
 			}
 			
 			$tok = strtok( '/' );
 				
 		}
-	
+		
 		return $strCrumb;
-	
+		
 	}
-
-	function get_path_titles( $post, $titles ) {
-		$post_parent;
 	
-	if ( $post->post_parent ) {
-		$post_parent = get_post( $post->post_parent );
-			$titles[$post_parent->post_name] = get_the_title( $post_parent );
-			$this->get_path_titles( $post_parent, $titles );
+	function get_path_titles( $post ) {
+		$post_parent;
+		
+		if ( $post->post_parent ) {
+			$post_parent = get_post( $post->post_parent );
+			$this->titles[$post_parent->post_name] = get_the_title( $post_parent );
+			$this->get_path_titles( $post_parent );
 		}
+		
 		return;
 	}
-
+	
 	// mimics get_permalink, does not parse
 	// page numbers
 	// returns ordered string
 	function make_permalink( $array, $post_type ) {
-	
+		
 		if ( isset( $array['s'] ) ) return 'Search Results';
-	
+		
 		$base_URL = get_bloginfo( 'url' );
 		$permalink = get_permalink();
-	
+		
 		switch ( $post_type ) {
-	
 			//reconstruct permalink to match link selection
 			case 'post':
 				$permalink = '/';
@@ -143,14 +134,11 @@ class SimpleCrumbsRedux {
 				if ( isset($array['name'] ) ) $permalink .= urldecode( $array['name'] ) . '/';
 				
 				if ( isset($array['tag'] ) ) $permalink .= 'tag/' . urldecode( $array['tag'] ) . '/';
-				
 				break;
-		
 			case 'page':
 			case 'attachment':
 			default:
 				$permalink = str_replace( $base_URL, '', $permalink );
-	
 		}
 		
 		//strip first and last '/'

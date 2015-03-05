@@ -3,8 +3,8 @@ Contributors: scriptrunner
 Donate link: http://www.dougsparling.org/wordpress-plugins/simple-crumbs-redux/
 Tags: breadcrumbs, navigation
 Requires at least: 2.7
-Tested up to: 3.6.1
-Stable tag: 1.0.2
+Tested up to: 4.1.1
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -69,25 +69,22 @@ A client of mine was using the Simple Crumbs and it wouldn't work once PHP was u
 
 == Changelog ==
 
-= 1.0.0 =
+= 1.1.0 =
+* Changed titles array to class property.
 
+= 1.0.2 =
+* Changed contributers name to my WordPress.org username.
+
+= 1.0.1 =
+* Upated readme to pass validation.
+
+= 1.0.0 =
 * Initial Release.
 * Fixed 'PHP Fatal error: Call-time pass-by-reference has been removed' with PHP 5.4 and greater.
 * Converted plugin from functional style to Object Oriented.
 * Repaced sc_unpack_query_string function with WordPress core function wp_parse_args().
 
-= 1.0.1 =
-
-* Upated readme to pass validation.
-
-
 == Upgrade Notice ==
 
-= 1.0.1 =
-
-Updated readme to pass validation.
-
-
-= 1.0.2 =
-
-Changed contributers name to my WordPress.org username.
+= 1.1.0 =
+* All crumbs between root page and current page now display page title instead of permalink.
