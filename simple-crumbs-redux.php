@@ -2,9 +2,9 @@
 /*
 Plugin Name: Simple Crumbs Redux
 Plugin URI: http://plugins.svn.wordpress.org/simple-crumbs-redux
-Description: Simple Crumbs  Redux- Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and php > 4.1.0, tested up to WP 4.1.1.
+Description: Simple Crumbs  Redux- Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and php > 4.1.0, tested up to WP 4.2.2.
 Author: Doug Sparling
-Version: 1.1.0
+Version: 1.1.1
 Author URI: http://www.dougsparling.org
 Note: link/crumb information from $query_string
 Note: page/post information from $post
@@ -18,7 +18,7 @@ License: Released under GNU v2 June 1991
 
 Simple Crumbs Redux is a resurrection of the Simple Crumbs plugin by Can Koluman (http://wordpress.org/plugins/simple-crumbs/) 0.2.5 codebase. Version 1.0.0 of Simple Crumbs Redux fixes a fatal error generated when using PHP 5.4 and greater (and a deprecation warning with PHP 5.3). I'm keeping the original short code (though you can also use [simple_crumbs_redux]) so this plugin will work as a drop in replacement for Simple Crumbs.
 
-Simple Crumbs Redux - Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and PHP >= 4.1.0. Tested up to WordPress 3.6 and PHP 5.5.
+Simple Crumbs Redux - Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and PHP >= 4.1.0. Tested up to WordPress 4.2.2 and PHP 5.5.
 
 fixes in this version:
 Fixed 'PHP Fatal error: Call-time pass-by-reference has been removed' with PHP 5.4 and greater.

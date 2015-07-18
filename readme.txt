@@ -3,8 +3,8 @@ Contributors: scriptrunner
 Donate link: http://www.dougsparling.org/wordpress-plugins/simple-crumbs-redux/
 Tags: breadcrumbs, navigation
 Requires at least: 2.7
-Tested up to: 4.1.1
-Stable tag: 1.1.0
+Tested up to: 4.2.2
+Stable tag: 1.1.1
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -15,7 +15,7 @@ Summary: Generates navigation bread crumbs in WordPress. Requires permalinks.
 
 Simple Crumbs Redux is a resurrection of the Simple Crumbs plugin by Can Koluman (http://wordpress.org/plugins/simple-crumbs/) 0.2.5 codebase. Version 1.0.0 of Simple Crumbs Redux fixes a fatal error generated when using PHP 5.4 and greater (and a deprecation warning with PHP 5.3). I'm keeping the original short code (though you can also use [simple_crumbs_redux]) so this plugin will work as a drop in replacement for Simple Crumbs.
 
-Simple Crumbs Redux - Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and PHP >= 4.1.0. Tested up to WordPress 3.6 and PHP 5.5.
+Simple Crumbs Redux - Generates a breadcrumb trail for pages and blog entries. Requires use of permalinks and PHP >= 4.1.0. Tested up to WordPress 4.2.2 and PHP 5.5.
 
 **Notes:** link/crumb information from $query_string, page/post information from $post, using permalink info for making links, using permalink structure for bootstrapping unrolled recursions (deepest to topmost).
 Author URI: http://www.dougsparling.org
@@ -68,6 +68,10 @@ A client of mine was using the Simple Crumbs and it wouldn't work once PHP was u
 
 
 == Changelog ==
+
+= 1.1.1 =
+* Updated outdated info in readme.
+* Tested with WordPress 4.2.2.
 
 = 1.1.0 =
 * Changed titles array to class property.
